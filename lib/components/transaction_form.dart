@@ -1,88 +1,98 @@
 import 'package:expenses/data/constants.data.dart';
 import 'package:flutter/material.dart';
-import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
+import 'package:intl/intl.dart';
 
-class TransactionForm extends StatelessWidget {
+class TransactionForm extends StatefulWidget {
+  final void Function(
+          BuildContext context, String title, double amount, DateTime date)
+      onSubmitTransaction;
+
+  const TransactionForm(this.onSubmitTransaction, {super.key});
+
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+
+class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
 
-  final void Function(String title, double amount) onAddTransaction;
+  DateTime _selectedDate = DateTime.now();
 
-  TransactionForm(this.onAddTransaction, {super.key});
-
-  addTransaction() {
+  void addTransaction(BuildContext context) {
     final title = titleController.text;
-    final amount = double.parse(amountController.text);
+    final amount = double.tryParse(amountController.text) ?? 0;
 
     if (title.isEmpty || amount <= 0) {
       return;
     }
 
-    onAddTransaction(title, amount);
+    widget.onSubmitTransaction(context, title, amount, _selectedDate);
     titleController.clear();
     amountController.clear();
   }
 
+  void openDatePicker(BuildContext context) {
+    var currentDate = DateTime.now();
+    showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(currentDate.year + 1),
+    ).then((pickedDate) {
+      if (pickedDate != null) {
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: defaultPadding),
-      child: IconButton(
-        onPressed: () {
-          WoltModalSheet.show(
-              context: context,
-              pageListBuilder: (sheetContext) => [
-                    SliverWoltModalSheetPage(
-                        pageTitle: Padding(
-                          padding: const EdgeInsets.all(defaultPadding),
-                          child: Text(
-                            "Nova Transação",
-                            style: TextStyle(
-                                fontSize: 24.0, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        trailingNavBarWidget: Padding(
-                          padding: EdgeInsets.all(defaultPadding),
-                          child: IconButton(
-                              onPressed: Navigator.of(sheetContext).pop,
-                              icon: Icon(Icons.close)),
-                        ),
-                        mainContentSliversBuilder: (context) => [
-                              SliverPadding(
-                                padding: EdgeInsets.all(defaultPadding),
-                                sliver: SliverSafeArea(
-                                  sliver: SliverToBoxAdapter(
-                                    child: Column(
-                                      spacing: defaultPadding,
-                                      children: [
-                                        TextField(
-                                          controller: titleController,
-                                          decoration: InputDecoration(
-                                              labelText: 'Título'),
-                                        ),
-                                        TextField(
-                                          controller: amountController,
-                                          decoration: InputDecoration(
-                                              labelText: 'Valor'),
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(
-                                                  decimal: true),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () => addTransaction(),
-                                          child: const Text('Adicionar'),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ])
-                  ]);
-        },
-        icon: Icon(Icons.add),
-        tooltip: 'Adicionar',
-      ),
+    return Column(
+      spacing: defaultPadding,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextField(
+          controller: titleController,
+          autofocus: true,
+          onSubmitted: (textContext) => addTransaction(context),
+          decoration: const InputDecoration(labelText: 'Título'),
+        ),
+        TextField(
+          controller: amountController,
+          onSubmitted: (textContext) => addTransaction(context),
+          decoration: const InputDecoration(labelText: 'Valor'),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        ),
+        SizedBox(
+          height: 70,
+          child: Row(
+            spacing: defaultPadding,
+            children: [
+              Text(DateFormat('dd-MM-yyyy').format(_selectedDate)),
+              TextButton(
+                onPressed: () => openDatePicker(context),
+                child: Text(
+                  "Selecionar data",
+                ),
+              )
+            ],
+          ),
+        ),
+        Center(
+          child: ElevatedButton(
+            onPressed: () => addTransaction(context),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(defaultBorderRadius),
+              ),
+            ),
+            child: const Text('Salvar'),
+          ),
+        ),
+      ],
     );
   }
 }
