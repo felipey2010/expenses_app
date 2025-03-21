@@ -34,8 +34,11 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            body: TransactionList(transactionContext.transactions,
-                transactionContext.deleteTransaction),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TransactionList(transactionContext.transactions,
+                  transactionContext.deleteTransaction),
+            ),
             floatingActionButton: FloatingActionButton(
               onPressed: () =>
                   transactionContext.openTransactionFormModal(context),

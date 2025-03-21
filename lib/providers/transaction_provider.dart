@@ -1,12 +1,11 @@
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/data/constants.data.dart';
-import 'package:expenses/data/dummy.data.dart';
 import 'package:expenses/models/transaction.model.dart';
 import 'package:flutter/material.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class TransactionProvider extends ChangeNotifier {
-  final List<Transaction> transactions = dummyTransactions;
+  final List<Transaction> transactions = [];
 
   addTransaction(
       BuildContext context, String title, double value, DateTime date) {
