@@ -7,16 +7,23 @@ import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 class TransactionProvider extends ChangeNotifier {
   final List<Transaction> transactions = [];
 
-  addTransaction(
-      BuildContext context, String title, double value, DateTime date) {
-    final newTransaction = Transaction(
-        id: transactions.length + 1,
-        title: title,
-        amount: value,
-        date: date,
-        icon: Icons.monetization_on);
+  addTransaction(BuildContext context, Transaction transaction) {
+    final existingTransactionIndex =
+        transactions.indexWhere((trx) => trx.id == transaction.id);
 
-    transactions.add(newTransaction);
+    final newTransaction = Transaction(
+      id: transaction.id == 0 ? transactions.length + 1 : transaction.id,
+      title: transaction.title,
+      amount: transaction.amount,
+      date: transaction.date,
+      icon: Icons.monetization_on,
+    );
+
+    if (existingTransactionIndex >= 0) {
+      transactions[existingTransactionIndex] = newTransaction;
+    } else {
+      transactions.add(newTransaction);
+    }
 
     Navigator.of(context).pop();
     notifyListeners();
@@ -27,7 +34,8 @@ class TransactionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  openTransactionFormModal(BuildContext context) {
+  openTransactionFormModal(BuildContext context, Transaction? transaction) {
+    bool isNewTransaction = transaction == null;
     WoltModalSheet.show(
       context: context,
       pageListBuilder: (sheetContext) => [
@@ -35,7 +43,7 @@ class TransactionProvider extends ChangeNotifier {
           pageTitle: Padding(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
             child: Text(
-              "Nova Transação",
+              isNewTransaction ? "Nova Transação" : 'Atualizar Transação',
               style: TextStyle(
                 fontSize: defaultFontSize * 1.5,
                 fontWeight: FontWeight.bold,
@@ -54,7 +62,7 @@ class TransactionProvider extends ChangeNotifier {
               padding: const EdgeInsets.all(defaultPadding),
               sliver: SliverSafeArea(
                 sliver: SliverToBoxAdapter(
-                  child: TransactionForm(addTransaction),
+                  child: TransactionForm(transaction, addTransaction),
                 ),
               ),
             ),

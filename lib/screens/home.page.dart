@@ -4,14 +4,9 @@ import 'package:expenses/providers/transaction_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,8 +21,8 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(right: defaultPadding),
                   child: IconButton(
-                    onPressed: () =>
-                        transactionContext.openTransactionFormModal(context),
+                    onPressed: () => transactionContext
+                        .openTransactionFormModal(context, null),
                     icon: Icon(Icons.add),
                     tooltip: 'Adicionar',
                   ),
@@ -41,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () =>
-                  transactionContext.openTransactionFormModal(context),
+                  transactionContext.openTransactionFormModal(context, null),
               child: Icon(Icons.add),
             ),
             floatingActionButtonLocation:

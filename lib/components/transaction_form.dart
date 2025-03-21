@@ -1,13 +1,15 @@
 import 'package:expenses/data/constants.data.dart';
+import 'package:expenses/models/transaction.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(
-          BuildContext context, String title, double amount, DateTime date)
+  final Transaction? transaction;
+  final void Function(BuildContext context, Transaction transaction)
       onSubmitTransaction;
 
-  const TransactionForm(this.onSubmitTransaction, {super.key});
+  const TransactionForm(this.transaction, this.onSubmitTransaction,
+      {super.key});
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -16,8 +18,17 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
-
   DateTime _selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    if (widget.transaction != null) {
+      _selectedDate = widget.transaction?.date ?? DateTime.now();
+      titleController.text = widget.transaction?.title ?? '';
+      amountController.text = widget.transaction?.amount.toString() ?? '';
+    }
+    super.initState();
+  }
 
   void addTransaction(BuildContext context) {
     final title = titleController.text;
@@ -27,7 +38,14 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
 
-    widget.onSubmitTransaction(context, title, amount, _selectedDate);
+    final newTransaction = Transaction(
+      id: widget.transaction?.id ?? 0,
+      title: title,
+      amount: amount,
+      date: _selectedDate,
+    );
+
+    widget.onSubmitTransaction(context, newTransaction);
     titleController.clear();
     amountController.clear();
   }
@@ -89,7 +107,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 borderRadius: BorderRadius.circular(defaultBorderRadius),
               ),
             ),
-            child: const Text('Salvar'),
+            child: Text(widget.transaction == null ? 'Salvar' : 'Atualizar'),
           ),
         ),
       ],
