@@ -1,13 +1,20 @@
 import 'package:expenses/data/colors.data.dart';
+import 'package:expenses/providers/transaction_provider.dart';
 import 'package:expenses/screens/home.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterLocalization.instance.ensureInitialized();
-  runApp(ExpenseApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TransactionProvider(),
+      child: ExpenseApp(),
+    ),
+  );
 }
 
 class ExpenseApp extends StatelessWidget {
