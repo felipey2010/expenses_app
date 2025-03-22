@@ -3,7 +3,6 @@ import 'package:expenses/providers/transaction_provider.dart';
 import 'package:expenses/screens/home.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -36,7 +35,7 @@ class ExpenseApp extends StatelessWidget {
           secondary: secondaryColor,
         ),
         useMaterial3: true,
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        // textTheme: GoogleFonts.poppinsTextTheme(),
         appBarTheme: AppBarTheme(
           backgroundColor: bgColor,
           foregroundColor: foregroundColor,

@@ -11,7 +11,10 @@ class EmptyTransactionState extends StatelessWidget {
         spacing: defaultPadding,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Nenhuma transação cadastrada"),
+          Text(
+            "Nenhuma transação cadastrada",
+            style: TextStyle(fontSize: (defaultFontSize * 1.25)),
+          ),
           Container(
             height: 200,
             width: 200,

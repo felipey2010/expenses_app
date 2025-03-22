@@ -1,14 +1,14 @@
 # Expenses
 
-A new Flutter project for managing expenses.
+A Flutter project for managing expenses. This was created with the purpose of putting into practice the knowledge acquired from tutorials.
 
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Lessons](#lessons)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -21,6 +21,16 @@ This project is a starting point for a Flutter application that helps users mana
 - Categorize expenses
 - View expense summary
 - User-friendly interface
+
+## Lessons
+
+List of lessons learnt which were applied in this project
+
+- The use of provider to manage state;
+- Adding fonts;
+- Stateful and stateless widgets;
+- Creating components;
+- Use of widgets such as Scaffold, TextField, buttons, etc
 
 ## Installation
 
@@ -46,10 +56,6 @@ To get started with this project, follow these steps:
 ## Usage
 
 Once the application is running, you can start adding your expenses, categorizing them, and viewing summaries.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
 ## License
 
