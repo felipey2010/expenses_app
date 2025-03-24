@@ -7,6 +7,7 @@ A Flutter project for managing expenses. This was created with the purpose of pu
 - [Introduction](#introduction)
 - [Features](#features)
 - [Lessons](#lessons)
+- [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
@@ -31,6 +32,18 @@ List of lessons learnt which were applied in this project
 - Stateful and stateless widgets;
 - Creating components;
 - Use of widgets such as Scaffold, TextField, buttons, etc
+
+## Screenshots
+
+<table>
+   <tr>
+      <td><img src="/assets/images/empty_screen.png" alt="Home screen" width="200"/></td>
+      <td><img src="/assets/images/new_transaction.png" alt="Add new expenses" width="200"/></td>
+   </tr>
+   <tr>
+      <td><img src="/assets/images/list_transactions.png" alt="List of transactions" width="200"/></td>
+   </tr>
+</table>
 
 ## Installation
 
